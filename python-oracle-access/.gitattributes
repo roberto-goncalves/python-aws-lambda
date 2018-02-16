@@ -1,0 +1,2 @@
+libclntsh.so.12.1 filter=lfs diff=lfs merge=lfs -text
+libociei.so filter=lfs diff=lfs merge=lfs -text
