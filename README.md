@@ -36,6 +36,25 @@ def sendCloudWatchMetric():
 
 This function access oracle and executes queries inside, remembering to read AWS Lambda documents on how to pack and execute it.
 
+```python
+def callOracleResponse():
+    result = {'result': []}
+    compose = executeQuery("<my_db_endpoint>","<db_sid>", "<db_user>", "<db_pwd>", "<query>")
+    result['result'].append(compose)
+    logger.info("Result %s", json.dumps(result, ensure_ascii=False))
+    return json.dumps(result)
+
+def executeQuery(ENDPOINT, SID, USER, PASSWORD, QUERY):
+    function_return = {'values': []}
+    dsn_tns = cx_Oracle.makedsn(ENDPOINT, 1600, SID)
+    connection = cx_Oracle.connect(USER, PASSWORD, dsn_tns)
+    cursor = connection.cursor()
+    cursor.execute(QUERY)
+    for values in cursor:
+        function_return['values'].append(values)
+    return function_return
+```
+
 ## python-rds-snapshot-cross-region
 
 This function access snapshots created by the RDS service and migrate them to another AWS AZ.
